@@ -47,14 +47,15 @@ jobs:
 
       - name: Requisição
         continue-on-error: true
-        run: sleep 30s ; wget LB-API-Go-635840839.us-east-1.elb.amazonaws.com:8000/bruno
+        run: echo "REQUEST=0" >> $GITHUB_ENV ; sleep 30s ; wget LB-API-Go-635840839.us-east-1.elb.amazonaws.com:8000/bruno || echo "REQUEST=1" >> $GITHUB_ENV
 
       - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-      with:
-        task-definition: task-definition.json.old
-        service: Tarefa_API-Go-service-zozstm1p
-        cluster: API-Go
-        wait-for-service-stability: true
+        if: ${{ env.REQUEST != 0 }}
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: task-definition.json.old
+          service: Tarefa_API-Go-service-zozstm1p
+          cluster: API-Go
+          wait-for-service-stability: true
 
           
