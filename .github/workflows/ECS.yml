@@ -34,6 +34,7 @@ jobs:
             DBNAME=${{ secrets.DBNAME }}
             DBPORT=${{ secrets.DBPORT }}
             PORT=8000
+            
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
@@ -41,3 +42,10 @@ jobs:
           service: Tarefa_API-Go-service-zozstm1p
           cluster: API-Go
           wait-for-service-stability: true
+
+
+
+      - name: Requisição
+        continue-on-error: true
+        run: sleep 30s ; wget LB-API-Go-635840839.us-east-1.elb.amazonaws.com:8000/bruno
+          
