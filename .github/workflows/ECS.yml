@@ -16,6 +16,9 @@ jobs:
           aws-region: us-east-1
       - name: Obtendo arquivo da tarefa
         run: aws ecs describe-task-definition --task-definition Tarefa_API-Go --query taskDefinition > task-definition.json
+        
+      - name: copia arquivo da tarefa
+        run: cp task-definition.json task-definition.json.old
       
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
